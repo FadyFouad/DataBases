@@ -2,7 +2,6 @@ package com.etaTech;
 
 import Model.Artist;
 import Model.DataSource;
-
 import java.util.List;
 
 /****************************************************

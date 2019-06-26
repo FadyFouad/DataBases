@@ -41,39 +41,30 @@ public class DataSource {
 
     public void close() {
         try {
-            if (connection!=null)
-            connection.close();
+            if (connection != null)
+                connection.close();
         } catch (SQLException e) {
             System.out.println("Couldnt close connection");
             e.printStackTrace();
-           }
+        }
     }
-    public List<Artist>getArtists(){
-        Statement statement = null;
-        ResultSet resultSet = null ;
 
-        try{
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM "+ TABLE_ARTISTS);
-            List<Artist>artists = new ArrayList<>();
-            while (resultSet.next()){
+    public List<Artist> getArtists() {
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS)) {
+
+            List<Artist> artists = new ArrayList<>();
+            while (resultSet.next()) {
                 Artist artist = new Artist();
                 artist.setId(resultSet.getInt(COLUMN_ARTIST_ID));
                 artist.setName(resultSet.getString(COLUMN_ARTIST_NAME));
                 artists.add(artist);
             }
             return artists;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        }finally {
-            try{
-                if (statement!=null){
-                    statement.close();
-                }
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
         }
     }
 }
