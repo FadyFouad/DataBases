@@ -2,6 +2,8 @@ package com.etaTech;
 
 import Model.Artist;
 import Model.DataSource;
+
+
 import java.util.List;
 
 /****************************************************
@@ -9,7 +11,7 @@ import java.util.List;
  ***************************************************/
 public class Main {
     public static void main(String[] args) {
-        System.out.println("------------------------- Music Database------------------------");
+        System.out.println("------------------------- Music Database------------------------\n");
 
         DataSource dataSource = new DataSource();
         if (!dataSource.open()){
@@ -17,11 +19,19 @@ public class Main {
             return;
         }
 
-        List<Artist> artists = dataSource.getArtists();
+        List<Artist> artists = dataSource.getArtists(DataSource.ORDERBY_ASC);
         for (Artist artist :
                 artists) {
-            System.out.println(artist.getName());
+            System.out.println(artist.getId()+" "+artist.getName());
+        }
+
+        List<String >albums = dataSource.albums4Artists("Iron Maiden",DataSource.ORDERBY_NONE);
+
+        for (String s :
+                albums) {
+            System.out.println(s);
         }
         dataSource.close();
     }
 }
+
