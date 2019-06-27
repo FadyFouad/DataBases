@@ -1,6 +1,5 @@
 package com.etaTech;
 
-import Model.Artist;
 import Model.DataSource;
 
 
@@ -19,16 +18,20 @@ public class Main {
             return;
         }
 
-        List<Artist> artists = dataSource.getArtists(DataSource.ORDERBY_ASC);
-        for (Artist artist :
-                artists) {
-            System.out.println(artist.getId()+" "+artist.getName());
-        }
-
+//        List<Artist> artists = dataSource.getArtists(DataSource.ORDERBY_ASC);
+//        for (Artist artist :
+//                artists) {
+//            System.out.println(artist.getId()+" "+artist.getName());
+//        }
         List<String >albums = dataSource.albums4Artists("Iron Maiden",DataSource.ORDERBY_NONE);
-
         for (String s :
                 albums) {
+            System.out.println(s);
+        }
+
+        List<String>albumJoinArtist = dataSource.artist4Songs("Mahogany Rush",DataSource.ORDERBY_NONE);
+        for (String s:
+             albumJoinArtist) {
             System.out.println(s);
         }
         dataSource.close();

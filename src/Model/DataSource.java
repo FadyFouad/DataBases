@@ -39,6 +39,20 @@ public class DataSource {
     public static final int ORDERBY_ASC = 2;
     public static final int ORDERBY_DES = 3;
 
+    public static final String QUERY_ARTIST_4_SONG =
+            "SELECT " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
+                    TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " +
+                    TABLE_SONGS + "." + COLUMN_SONGS_TRACK + " FROM " + TABLE_SONGS +
+                    " INNER JOIN " + TABLE_ALBUMS + " ON " +
+                    TABLE_SONGS + "." + COLUMN_SONGS_ALBUM + " = " + TABLE_ALBUMS + "." +
+                    COLUMN_ALBUM_ID + " INNER JOIN " + TABLE_ARTISTS + " ON " +
+                    TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST + " = " + TABLE_ARTISTS + "." +
+                    COLUMN_ARTIST_ID + " WHERE " + TABLE_SONGS + "." + COLUMN_SONGS_TITLE + " = \"";
+
+    public static final String QUERY_ARTIST_4_SONG_SORT =
+            " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
+                    TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
+
 
     private Connection connection;
 
@@ -67,13 +81,13 @@ public class DataSource {
 
         StringBuilder sql = new StringBuilder("SELECT * FROM ");
         sql.append(TABLE_ARTISTS);
-        if (sortOrder!=ORDERBY_NONE){
+        if (sortOrder != ORDERBY_NONE) {
             sql.append(" ORDER BY ");
             sql.append(COLUMN_ARTIST_NAME);
             sql.append(" COLLATE NOCASE ");
-            if (sortOrder == ORDERBY_ASC){
+            if (sortOrder == ORDERBY_ASC) {
                 sql.append(" ASC ");
-            }else
+            } else
                 sql.append(" DESC ");
         }
 
@@ -94,7 +108,7 @@ public class DataSource {
         }
     }
 
-    public List<String> albums4Artists(String artistName,int order){
+    public List<String> albums4Artists(String artistName, int order) {
         StringBuilder sql = new StringBuilder("SELECT ");
         sql.append(TABLE_ALBUMS);
         sql.append('.');
@@ -104,36 +118,56 @@ public class DataSource {
         sql.append(" JOIN ");
         sql.append(TABLE_ARTISTS);
         sql.append(" ON ");
-        sql.append(TABLE_ALBUMS+"."+COLUMN_ALBUM_ARTIST+" = ");
-        sql.append(TABLE_ARTISTS+"."+COLUMN_ARTIST_ID);
+        sql.append(TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST + " = ");
+        sql.append(TABLE_ARTISTS + "." + COLUMN_ARTIST_ID);
         sql.append(" WHERE ");
-        sql.append(TABLE_ARTISTS+"."+COLUMN_ARTIST_NAME);
+        sql.append(TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME);
         sql.append(" = \"");
         sql.append(artistName);
         sql.append("\"");
 
-        if (order!=ORDERBY_NONE){
+        if (order != ORDERBY_NONE) {
             sql.append(" ORDER BY ");
-            sql.append(TABLE_ALBUMS+"."+COLUMN_ALBUM_NAME);
+            sql.append(TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME);
             sql.append(" COLLATE NOCASE ");
-            if (order == ORDERBY_ASC){
+            if (order == ORDERBY_ASC) {
                 sql.append(" ASC ");
-            }else
+            } else
                 sql.append(" DESC ");
         }
+        return getData(sql);
+
+    }
+
+    public List<String> artist4Songs(String artistName, int order) {
+        StringBuilder sql = new StringBuilder(QUERY_ARTIST_4_SONG);
+        sql.append(artistName);
+        sql.append("\"");
+        if (order!=ORDERBY_NONE){
+            sql.append(QUERY_ARTIST_4_SONG_SORT);
+            if(order == ORDERBY_DES) {
+                sql.append("DESC");
+            } else {
+                sql.append("ASC");
+            }
+        }
+        return getData(sql);
+
+    }
+
+    private List<String> getData(StringBuilder sql) {
         System.out.println(sql.toString());
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql.toString())) {
-            List<String> albums = new ArrayList<>();
+            List<String> artists = new ArrayList<>();
             while (resultSet.next()) {
-                albums.add(resultSet.getString(1));
+                artists.add(resultSet.getString(1));
             }
-            return albums;
+            return artists;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-
     }
 }
