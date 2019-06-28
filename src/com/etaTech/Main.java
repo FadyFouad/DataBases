@@ -1,8 +1,10 @@
 package com.etaTech;
 
 import Model.DataSource;
+import Model.SongArtist;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /****************************************************
@@ -37,6 +39,18 @@ public class Main {
 
         int count = dataSource.getCount("artists");
         System.out.println(count);
+
+        dataSource.createSongArtistView();
+
+        List<SongArtist>songArtists = dataSource.songInfo("Go Your Own Way");
+        if (songArtists.isEmpty()){
+            System.out.println("No Match");
+        }
+        System.out.println("Artist Name\t\tAlbum Name\tTrack");
+        for (SongArtist songArtist :
+                songArtists) {
+            System.out.println(songArtist.getArtistName()+" "+songArtist.getAlbumName()+" "+songArtist.getTrack()+" " );
+        }
 
         dataSource.close();
     }
