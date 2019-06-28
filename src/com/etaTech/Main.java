@@ -34,6 +34,10 @@ public class Main {
              albumJoinArtist) {
             System.out.println(s);
         }
+
+        int count = dataSource.getCount("artists");
+        System.out.println(count);
+
         dataSource.close();
     }
 }

@@ -155,6 +155,22 @@ public class DataSource {
 
     }
 
+    public int getCount(String table){
+        String sql = " SELECT COUNT(*) , MIN(_id) AS min , SUM(_id)as sum FROM  "+table;
+        try(Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql)){
+            int count = resultSet.getInt(1);
+            int min = resultSet.getInt("min");
+            int sum = resultSet.getInt("sum");
+            System.out.format("Count = %d min = %d Sum = %d\n",count , min,sum  );
+            return count;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+    }
+
     private List<String> getData(StringBuilder sql) {
         System.out.println(sql.toString());
 
