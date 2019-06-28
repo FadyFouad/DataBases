@@ -82,10 +82,11 @@ public class DataSource {
             '(' + COLUMN_ARTIST_NAME + ')' + " VALUES (?)";
 
     public static final String INSERT_ALBUM = "INSERT INTO " + TABLE_ALBUMS +
-            '(' + COLUMN_ALBUM_NAME + " , " + COLUMN_ALBUM_ARTIST + ')' + " VALUES (?),(?)";
+            '(' + COLUMN_ALBUM_NAME + " , " + COLUMN_ALBUM_ARTIST + ") VALUES (?,?)";
 
     public static final String INSERT_SONG = "INSERT INTO " + TABLE_SONGS +
-            '(' + COLUMN_SONGS_TRACK + " , " + COLUMN_SONGS_TITLE + " , " + COLUMN_SONGS_ALBUM + ')' + " VALUES (?),(?),(?)";
+            '(' + COLUMN_SONGS_TRACK + " , " + COLUMN_SONGS_TITLE + " , " + COLUMN_SONGS_ALBUM + ") VALUES (?,?,?)";
+
 
     public static final String GET_ARTIST_ID = "SELECT " + COLUMN_ARTIST_ID + " FROM " +
             TABLE_ARTISTS + " WHERE " + COLUMN_ARTIST_NAME + " = ?";
@@ -150,7 +151,7 @@ public class DataSource {
         }
     }
 
-    private int insertArtist(String name) throws SQLException {
+    public int insertArtist(String name) throws SQLException {
         queryArtist.setString(1, name);
         ResultSet resultSet = queryArtist.executeQuery();
         if (resultSet.next()) {
@@ -167,7 +168,7 @@ public class DataSource {
         } else throw new SQLException("Can't get id");
     }
 
-    private int insertAlbum(String name, int id) throws SQLException {
+    public int insertAlbum(String name, int id) throws SQLException {
         queryAlbum.setString(1, name);
         ResultSet resultSet = queryAlbum.executeQuery();
         if (resultSet.next()) {
@@ -185,7 +186,7 @@ public class DataSource {
         } else throw new SQLException("Can't get id");
     }
 
-    private void insertSong(String title, String artist, String album, int track) {
+    public void insertSong(String title, String artist, String album, int track) {
         try {
             connection.setAutoCommit(false);
             int artistId = insertArtist(artist);

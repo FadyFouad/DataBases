@@ -15,8 +15,9 @@ public class Main {
         System.out.println("------------------------- Music Database------------------------\n");
 
         DataSource dataSource = new DataSource();
+        dataSource.open();
         if (!dataSource.open()){
-            System.out.println("Cant open");
+            System.out.println("Can't open");
             return;
         }
 
@@ -51,6 +52,8 @@ public class Main {
                 songArtists) {
             System.out.println(songArtist.getArtistName()+" "+songArtist.getAlbumName()+" "+songArtist.getTrack()+" " );
         }
+
+        dataSource.insertSong("New Song","Fady","New Album",999);
 
         dataSource.close();
     }
