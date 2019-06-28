@@ -8,38 +8,33 @@ import java.util.List;
  *** Created by Fady Fouad on 6/25/2019 at 22:47.***
  ***************************************************/
 public class DataSource {
-    public static final String DATABASE_NAME = "music.db";
-    public static final String CONNECTION = "jdbc:sqlite:" + DATABASE_NAME;
-
-    public static final String TABLE_ALBUMS = "albums";
-    public static final String COLUMN_ALBUM_ID = "_id";
-    public static final String COLUMN_ALBUM_NAME = "name";
-    public static final String COLUMN_ALBUM_ARTIST = "artist";
-    public static final int INDEX_ALBUM_ID = 1;
-    public static final int INDEX_ALBUM_NAME = 2;
-    public static final int INDEX_ALBUM_ARTIST = 3;
-
-    public static final String TABLE_ARTISTS = "artists";
-    public static final String COLUMN_ARTIST_ID = "_id";
-    public static final String COLUMN_ARTIST_NAME = "name";
-    public static final int INDEX_ARTIST_ID = 1;
-    public static final int INDEX_ARTIST_NAME = 2;
-
-    public static final String TABLE_SONGS = "songs";
-    public static final String COLUMN_SONGS_ID = "_id";
-    public static final String COLUMN_SONGS_TRACK = "track";
-    public static final String COLUMN_SONGS_TITLE = "title";
-    public static final String COLUMN_SONGS_ALBUM = "album";
-    public static final int INDEX_SONG_ID = 1;
-    public static final int INDEX_SONG_TRACK = 2;
-    public static final int INDEX_SONG_TITLE = 3;
-    public static final int INDEX_SONG_ALBUM = 4;
-
     public static final int ORDERBY_NONE = 1;
     public static final int ORDERBY_ASC = 2;
     public static final int ORDERBY_DES = 3;
-
-    public static final String QUERY_ARTIST_4_SONG =
+    private static final String DATABASE_NAME = "music.db";
+    private static final String CONNECTION = "jdbc:sqlite:" + DATABASE_NAME;
+    private static final String TABLE_ALBUMS = "albums";
+//    public static final int INDEX_ALBUM_ID = 1;
+//    public static final int INDEX_ALBUM_NAME = 2;
+//    public static final int INDEX_ALBUM_ARTIST = 3;
+    private static final String COLUMN_ALBUM_ID = "_id";
+    private static final String COLUMN_ALBUM_NAME = "name";
+    private static final String COLUMN_ALBUM_ARTIST = "artist";
+    private static final String TABLE_ARTISTS = "artists";
+    private static final String COLUMN_ARTIST_ID = "_id";
+    private static final String COLUMN_ARTIST_NAME = "name";
+    private static final int INDEX_ARTIST_ID = 1;
+    private static final int INDEX_ARTIST_NAME = 2;
+    private static final String TABLE_SONGS = "songs";
+//    public static final int INDEX_SONG_ID = 1;
+//    public static final int INDEX_SONG_TRACK = 2;
+//    public static final int INDEX_SONG_TITLE = 3;
+//    public static final int INDEX_SONG_ALBUM = 4;
+    //    public static final String COLUMN_SONGS_ID = "_id";
+    private static final String COLUMN_SONGS_TRACK = "track";
+    private static final String COLUMN_SONGS_TITLE = "title";
+    private static final String COLUMN_SONGS_ALBUM = "album";
+    private static final String QUERY_ARTIST_4_SONG =
             "SELECT " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
                     TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " +
                     TABLE_SONGS + "." + COLUMN_SONGS_TRACK + " FROM " + TABLE_SONGS +
@@ -49,13 +44,13 @@ public class DataSource {
                     TABLE_ALBUMS + "." + COLUMN_ALBUM_ARTIST + " = " + TABLE_ARTISTS + "." +
                     COLUMN_ARTIST_ID + " WHERE " + TABLE_SONGS + "." + COLUMN_SONGS_TITLE + " = \"";
 
-    public static final String QUERY_ARTIST_4_SONG_SORT =
+    private static final String QUERY_ARTIST_4_SONG_SORT =
             " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
                     TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
 
-    public static final String TABLE_ARTIST_SONG_VIEW = "artist_list";
+    private static final String TABLE_ARTIST_SONG_VIEW = "artist_list";
 
-    public static final String CREATE_ARTIST_SONG_VIEW = " CREATE VIEW IF NOT EXISTS " +
+    private static final String CREATE_ARTIST_SONG_VIEW = " CREATE VIEW IF NOT EXISTS " +
             TABLE_ARTIST_SONG_VIEW + " AS SELECT " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " +
             TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + " AS " + COLUMN_SONGS_ALBUM + ", " +
             TABLE_SONGS + "." + COLUMN_SONGS_TRACK + ", " + TABLE_SONGS + "." + COLUMN_SONGS_TITLE +
@@ -69,29 +64,24 @@ public class DataSource {
             TABLE_ALBUMS + "." + COLUMN_ALBUM_NAME + ", " +
             TABLE_SONGS + "." + COLUMN_SONGS_TRACK;
 
-
-    public static final String QUERY_VIEW_SONG = "SELECT " + COLUMN_ARTIST_NAME + ", " +
-            COLUMN_SONGS_ALBUM + " , " + COLUMN_SONGS_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
-            " WHERE " + COLUMN_SONGS_TITLE + " = \"";
-
-    public static final String QUERY_VIEW_SONG_PREP = "SELECT " + COLUMN_ARTIST_NAME + ", " +
+    private static final String QUERY_VIEW_SONG_PREP = "SELECT " + COLUMN_ARTIST_NAME + ", " +
             COLUMN_SONGS_ALBUM + " , " + COLUMN_SONGS_TRACK + " FROM " + TABLE_ARTIST_SONG_VIEW +
             " WHERE " + COLUMN_SONGS_TITLE + " = ? ";
 
-    public static final String INSERT_ARTIST = "INSERT INTO " + TABLE_ARTISTS +
+    private static final String INSERT_ARTIST = "INSERT INTO " + TABLE_ARTISTS +
             '(' + COLUMN_ARTIST_NAME + ')' + " VALUES (?)";
 
-    public static final String INSERT_ALBUM = "INSERT INTO " + TABLE_ALBUMS +
+    private static final String INSERT_ALBUM = "INSERT INTO " + TABLE_ALBUMS +
             '(' + COLUMN_ALBUM_NAME + " , " + COLUMN_ALBUM_ARTIST + ") VALUES (?,?)";
 
-    public static final String INSERT_SONG = "INSERT INTO " + TABLE_SONGS +
+    private static final String INSERT_SONG = "INSERT INTO " + TABLE_SONGS +
             '(' + COLUMN_SONGS_TRACK + " , " + COLUMN_SONGS_TITLE + " , " + COLUMN_SONGS_ALBUM + ") VALUES (?,?,?)";
 
 
-    public static final String GET_ARTIST_ID = "SELECT " + COLUMN_ARTIST_ID + " FROM " +
+    private static final String GET_ARTIST_ID = "SELECT " + COLUMN_ARTIST_ID + " FROM " +
             TABLE_ARTISTS + " WHERE " + COLUMN_ARTIST_NAME + " = ?";
 
-    public static final String GET_ALBUM_ID = "SELECT " + COLUMN_ALBUM_ID + " FROM " +
+    private static final String GET_ALBUM_ID = "SELECT " + COLUMN_ALBUM_ID + " FROM " +
             TABLE_ALBUMS + " WHERE " + COLUMN_ALBUM_NAME + " = ?";
 
     private Connection connection;
@@ -151,7 +141,7 @@ public class DataSource {
         }
     }
 
-    public int insertArtist(String name) throws SQLException {
+    private int insertArtist(String name) throws SQLException {
         queryArtist.setString(1, name);
         ResultSet resultSet = queryArtist.executeQuery();
         if (resultSet.next()) {
@@ -168,7 +158,7 @@ public class DataSource {
         } else throw new SQLException("Can't get id");
     }
 
-    public int insertAlbum(String name, int id) throws SQLException {
+    private int insertAlbum(String name, int id) throws SQLException {
         queryAlbum.setString(1, name);
         ResultSet resultSet = queryAlbum.executeQuery();
         if (resultSet.next()) {
@@ -233,7 +223,6 @@ public class DataSource {
         }
 
         try (Statement statement = connection.createStatement();
-//             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_ARTISTS)) {
              ResultSet resultSet = statement.executeQuery(sql.toString())) {
             List<Artist> artists = new ArrayList<>();
             while (resultSet.next()) {
@@ -312,22 +301,16 @@ public class DataSource {
 
     }
 
-    public boolean createSongArtistView() {
+    public void createSongArtistView() {
         try (Statement statement = connection.createStatement()) {
             statement.execute(CREATE_ARTIST_SONG_VIEW);
             System.out.println("\n" + CREATE_ARTIST_SONG_VIEW + "\n");
-            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
     }
 
     public List<SongArtist> songInfo(String title) {
-//        StringBuilder sql = new StringBuilder(QUERY_VIEW_SONG);
-//        sql.append(title);
-//        sql.append("\"");
-//        System.out.println(sql.toString());
         try {
             preparedStatement.setString(1, title);//Order is must
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -344,22 +327,6 @@ public class DataSource {
             e.printStackTrace();
             return null;
         }
-
-//        try (Statement statement = connection.createStatement();
-//             ResultSet resultSet = statement.executeQuery(sql.toString())) {
-//            List<SongArtist> songArtists = new ArrayList<>();
-//            while (resultSet.next()) {
-//                SongArtist songArtist = new SongArtist();
-//                songArtist.setArtistName(resultSet.getString(1));
-//                songArtist.setAlbumName(resultSet.getString(2));
-//                songArtist.setTrack(resultSet.getInt(3));
-//                songArtists.add(songArtist);
-//            }
-//            return songArtists;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
     }
 
     private List<String> getData(StringBuilder sql) {
